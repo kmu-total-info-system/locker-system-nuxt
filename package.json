@@ -1,0 +1,29 @@
+{
+  "name": "locker-system-nuxt",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kmu-total-info-system/locker-system-nuxt.git"
+  },
+  "keywords": [
+    "nuxt"
+  ],
+  "author": "",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/kmu-total-info-system/locker-system-nuxt/issues"
+  },
+  "homepage": "https://github.com/kmu-total-info-system/locker-system-nuxt#readme",
+  "description": "",
+  "dependencies": {
+    "nuxt": "^2.8.1"
+  }
+}
