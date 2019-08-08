@@ -4,7 +4,6 @@
   "description": "Nuxt.js + Vuetify.js project",
   "author": "",
   "private": true,
-  "scripts": {
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -12,11 +11,6 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate"
-  },
-  "dependencies": {
-    "vuetify-loader": "^1.0.5",
-    "nuxt": "^2.2.0",
-    "vuetify": "^1.3.6"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
@@ -31,6 +25,7 @@
     "eslint-plugin-standard": "^4.0.0",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/kmu-total-info-system/locker-system-nuxt.git"
@@ -38,14 +33,14 @@
   "keywords": [
     "nuxt"
   ],
-  "author": "",
   "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/kmu-total-info-system/locker-system-nuxt/issues"
   },
   "homepage": "https://github.com/kmu-total-info-system/locker-system-nuxt#readme",
-  "description": "",
   "dependencies": {
-    "nuxt": "^2.8.1"
+    "vuetify-loader": "^1.0.5",
+    "nuxt": "^2.2.0",
+    "vuetify": "^1.3.6"
   }
 }
