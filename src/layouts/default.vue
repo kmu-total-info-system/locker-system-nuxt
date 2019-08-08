@@ -9,7 +9,7 @@
 </script>
 <style>
   body {
-    margin: 0;
+    margin: 0
   }
 </style>
 <style scoped>

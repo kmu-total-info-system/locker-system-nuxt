@@ -33,15 +33,15 @@ module.exports = {
     ],
     extractCSS: true,
     extend (config, ctx) {
-      // Run ESLint on save
-      if (ctx.isDev && ctx.isClient) {
-        config.module.rules.push({
-          enforce: 'pre',
-          test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
-          exclude: /(node_modules)/
-        })
-      }
+      // Run ESLint on save , clinet strictly
+      // if (ctx.isDev && ctx.isClient) {
+      //   config.module.rules.push({
+      //     enforce: 'pre',
+      //     test: /\.(js|vue)$/,
+      //     loader: 'eslint-loader',
+      //     exclude: /(node_modules)/
+      //   })
+      // }
       if (process.server) {
         config.externals = [
           nodeExternals({
