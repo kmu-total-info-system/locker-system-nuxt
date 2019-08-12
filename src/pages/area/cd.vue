@@ -1,6 +1,6 @@
 <template>
     <v-container text-xs-center fluid>
-        <v-layout>
+        <v-layout xs10>
             <v-flex d-inline-flex>
                 <v-layout column>
                     <v-layout v-for="Clist in CtotalList" align-start justify-start row fill-height wrap>
@@ -32,7 +32,7 @@
                 </v-layout>
             </v-flex>
         </v-layout>
-        <v-layout>
+        <v-layout xs2>
             <v-flex>
                 <v-card-text class="pa-0">
                     복도
