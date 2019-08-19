@@ -83,8 +83,29 @@
 </template>
 
 <script>
+    import A1 from "../components/A1"
+    import A2 from "../components/A2"
+    import A3 from "../components/A3"
+    import A4 from "../components/A4"
+    import B1 from "../components/B1"
+    import B2 from "../components/B2"
+    import C from "../components/C"
+    import D from "../components/D"
+    import Whole from "../components/Whole";
+
     export default {
-        name: 'index'
+        name: 'index',
+        components: {
+            Whole,
+            A1,
+            A2,
+            A3,
+            A4,
+            B1,
+            B2,
+            C,
+            D
+        },
     }
 </script>
 
