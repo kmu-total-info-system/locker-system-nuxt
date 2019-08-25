@@ -3,11 +3,12 @@
         <img width="28" height="24" :src="safebox"/>
         <v-toolbar-title style="margin-top:2px; font-size:18px;">사물함 신청하기</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn @click="click" class="primary" v-if="!userInfo.isLogin">
+        <v-btn @click="click" class="primary" v-if="!userInfo.is_active">
             로그인
         </v-btn>
-        <v-toolbar-items v-else-if="userInfo.isLogin">
-            {{userInfo.user.name}}님 안녕하세요, <span>로그아웃</span>
+        <v-toolbar-items v-else-if="userInfo.is_active">
+            {{userInfo.name}}님 안녕하세요,&nbsp;
+            <span @click.stop="logout" class="logout">로그아웃</span>
         </v-toolbar-items>
     </v-toolbar>
 </template>
@@ -18,8 +19,13 @@
     export default {
         name: "TopNav",
         methods: {
-            click: function () {
-                this.$emit('click')
+            click: function (e) {
+                this.$emit('click', e)
+                console.log('test2')
+            },
+            async logout() {
+                await this.$auth.logout();
+                this.$store.commit('Logout');
             }
         },
         data() {
@@ -39,5 +45,10 @@
 <style scoped>
     .v-toolbar__items {
         height: auto;
+    }
+
+    .logout {
+        text-decoration: underline;
+        cursor: pointer;
     }
 </style>

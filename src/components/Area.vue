@@ -4,9 +4,9 @@
                 :height="60*data.height" :width="60*data.width"
                 :style="{backgroundColor:color}"
                 :class="{overlay:hover}"
-                class="z-index-20 elevation-collapse text-xs-center align-center pointer
+                class="card-layout z-index-20 elevation-collapse text-xs-center align-center pointer
                                 d-flex justify-space-between">
-            <div class="d-inline-block primaryText--text">{{ data.value }}
+            <div class="d-inline-block text primaryText--text">{{ data.value }}
             </div>
         </v-card>
     </v-hover>
@@ -19,8 +19,7 @@
         methods: {
             click: function () {
                 this.$emit('click', this.data);
-                console.log(this.data);
-                this.$store.commit('currentChange', this.data);
+                this.$store.commit('CurrentChange', this.data);
             }
         },
         computed: {

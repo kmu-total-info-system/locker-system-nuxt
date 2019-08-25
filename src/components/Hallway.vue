@@ -1,9 +1,9 @@
 <template>
     <v-card :height="60*data.height" :width="60*data.width"
             style="background-color: transparent"
-            class="elevation-0 text-xs-center align-center background
+            class="card-layout elevation-0 text-xs-center align-center background
                                 d-flex justify-space-between">
-        <div class="d-inline-block secondaryText--text">{{ data.value }}</div>
+        <div class="d-inline-block text secondaryText--text">{{ data.value }}</div>
     </v-card>
 </template>
 

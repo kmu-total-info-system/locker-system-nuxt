@@ -1,14 +1,24 @@
 import Vuex from 'vuex';
+import Vue from 'vue'
+import VuexPersist from 'vuex-persist'
+
+Vue.use(Vuex)
+let vuexLocalStorage = null;
 import getters from "./getters";
 import mutations from "./mutations";
+import actions from "./actions";
 
+if (process.browser) {
+    vuexLocalStorage = new VuexPersist({
+        key: 'vuex', // The key to store the state on in the storage provider.
+        storage: window.localStorage, // or window.sessionStorage or localForage
+    })
+}
 const store = () => {
     return new Vuex.Store({
         state: {
             current: 'whole',
-            user: {
-                isLogin: false
-            },
+            user: process.browser ? vuexLocalStorage.storage.user : {},
             locker:
                 [
                     {
@@ -17,27 +27,27 @@ const store = () => {
                             [
                                 {
                                     type: 'area',
-                                    value: 'A - 2',
+                                    value: 'A2',
                                     width: 1,
                                     height: 1,
                                     color: '#45e6a3',
-                                    link:'A2'
+                                    link: 'A2'
                                 },
                                 {
                                     type: 'area',
-                                    value: 'B - 1',
+                                    value: 'B1',
                                     width: 3,
                                     height: 1,
                                     color: '#ffbf40',
-                                    link:'B1'
+                                    link: 'B1'
                                 },
                                 {
                                     type: 'area',
-                                    value: 'B - 2',
+                                    value: 'B2',
                                     width: 1,
                                     height: 1,
                                     color: '#ffbf40',
-                                    link:'B2'
+                                    link: 'B2'
                                 },
                                 {
                                     type: 'area',
@@ -45,7 +55,7 @@ const store = () => {
                                     width: 3,
                                     height: 1,
                                     color: '#4dd2ff',
-                                    link:'C'
+                                    link: 'C'
                                 },
                                 {
                                     type: 'area',
@@ -53,15 +63,15 @@ const store = () => {
                                     width: 1,
                                     height: 1,
                                     color: '#fff266',
-                                    link:'D'
+                                    link: 'D'
                                 },
                                 {
                                     type: 'area',
-                                    value: 'A - 3',
+                                    value: 'A3',
                                     width: 1,
                                     height: 1,
                                     color: '#45e6a3',
-                                    link:'A3'
+                                    link: 'A3'
                                 },
                                 {
                                     type: 'stairs',
@@ -71,7 +81,7 @@ const store = () => {
                                 },
                                 {
                                     type: 'area',
-                                    value: 'A - 4',
+                                    value: 'A4',
                                     width: 1,
                                     height: 1,
                                     link: 'A4',
@@ -101,7 +111,7 @@ const store = () => {
                                 },
                                 {
                                     type: 'area',
-                                    value: 'A - 1',
+                                    value: 'A1',
                                     width: 3,
                                     height: 1,
                                     color: '#45e6a3',
@@ -126,6 +136,8 @@ const store = () => {
         },
         getters,
         mutations,
+        actions,
+        plugins: process.browser ? [vuexLocalStorage.plugin] : []
     })
 };
 

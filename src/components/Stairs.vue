@@ -1,6 +1,6 @@
 <template>
     <v-card :height="60*data.height" :width="60*data.width"
-            class="elevation-0 text-xs-center align-center background
+            class="card-layout elevation-0 text-xs-center align-center background
                                 d-flex justify-space-between">
         <div class="font-size-0">
             <img class="stairs"

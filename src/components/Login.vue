@@ -1,38 +1,53 @@
 <template>
-    <div>
-        <div @click="formExit" class="dim-background"></div>
-        <v-form class="elevation-6 pa-3 z-index-max form"
+    <v-card justify="center" style="border-radius:6px;">
+        <v-form class="elevation-6 pa-4 z-index-max form"
                 ref="form"
                 lazy-validation
         >
+            <v-card-title class="headline pa-0 mb-3">
+                로그인
+            </v-card-title>
             <v-text-field
                     v-model="studentNumber"
                     :counter="8"
                     label="학번"
                     @change="check"
+                    :rules="numRules"
                     name="id"
                     required
             ></v-text-field>
-
             <v-text-field
+                    class="mb-3"
                     type="password"
                     v-model="password"
                     label="비밀번호"
-                    name="passwd"
+                    :rules="passwdRules"
+                    name="password"
                     @change="check"
                     required
             ></v-text-field>
-            <v-flex class="text-xs-right">
-                <v-btn :loading="loading"
-                       :disabled="!valid||loading"
-                       color="primary"
-                       @click="validate"
-                >
-                    로그인
-                </v-btn>
-            </v-flex>
+            <v-btn :loading="loading"
+                   :disabled="disabled"
+                   class="ma-0"
+                   block
+                   type="submit"
+                   color="primary"
+                   @click.prevent="validate"
+            >
+                로그인
+            </v-btn>
         </v-form>
-    </div>
+        <v-alert
+                height="40"
+                class="ma-0 px-2 py-1 z-index-max"
+                v-model="inValid"
+                outlined
+                type="error"
+                :dismissible="true"
+        >
+            로그인에 실패했습니다
+        </v-alert>
+    </v-card>
 </template>
 
 <script>
@@ -40,31 +55,38 @@
         name: "Login",
         data() {
             return {
-                valid: false,
+                complete: false,
+                inValid: undefined,
                 loading: false,
                 studentNumber: '',
-                nameRules: [
-                    v => !!v || '학번을 입력해주세요',
-                    v => (v && v.length <= 8) || '학번은 최대 8글자 입니다',
-                ],
                 password: '',
+                disabled: true,
+                numRules: [
+                    v => !!v || '학번을 입력해주세요',
+                ],
+                passwdRules: [
+                    v => !!v || '비밀번호를 입력해주세요',
+                ],
             }
         },
         methods: {
             check() {
-                if (this.$refs.form.validate()) {
-                    this.valid = true;
-                }
+                this.disabled = !this.$refs.form.validate();
             },
             async validate() {
                 this.loading = true;
                 try {
                     var logindata = new FormData(this.$refs.form.$el);
-                    var response = await this.$axios.$post('/auth/account/', logindata)
+                    var response = await this.$auth.loginWith('local', {
+                        data: logindata
+                    });
+                    this.$store.commit('User', this.$auth.user);
+                    this.inValid = false;
                     this.loading = false;
-                    console.log(response)
+
                 } catch (err) {
-                    console.log(err)
+                    this.inValid = true;
+                    this.loading = false;
                 }
 
             },
@@ -77,21 +99,6 @@
 
 <style scoped>
     .form {
-        border-radius: 6px;
-        position: fixed;
-        width: 300px;
-        margin: auto;
         background-color: white;
-        left: 40%;
-        top: 30%;
-    }
-
-    .dim-background {
-        height: 100%;
-        width: 100%;
-        background-color: white;
-        opacity: .7;
-        z-index: 50;
-        position: fixed;
     }
 </style>

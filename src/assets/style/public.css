@@ -31,7 +31,11 @@
     position: absolute;
 }
 
-.v-card > *:first-child:not(.v-btn):not(.v-chip), .v-card > *:last-child:not(.v-btn):not(.v-chip) {
+.card-layout {
+    flex: none !important;
+}
+
+.v-card > .text {
     font-size: 16px;
     margin-top: 2px;
 }
@@ -60,10 +64,6 @@
     border-radius: 0;
 }
 
-.v-card {
-    flex: none !important;
-}
-
 .z-index-10 {
     z-index: 10
 }
@@ -72,6 +72,6 @@
     z-index: 20
 }
 
-.z-index-max{
-    z-index:10000;
+.z-index-max {
+    z-index: 10000;
 }

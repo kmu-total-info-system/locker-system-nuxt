@@ -1,9 +1,13 @@
 <template>
     <div>
-        <Login v-show="isForm" @formExit="formExit"></Login>
-        <TopNav style="margin-bottom:150px;" @click="login"></TopNav>
+        <v-dialog max-width="300" v-if="!userInfo.is_active" v-model="isForm">
+            <Login></Login>
+        </v-dialog>
+        <TopNav style="margin-bottom:150px;" @click.stop="isForm = true" @click="login"></TopNav>
         <v-container>
-            <v-layout v-for="datas in locker" style="margin-bottom:75px;" column>
+            <v-layout class="d-inline-block" v-for="datas in locker"
+                      style="min-width:720px; margin-bottom:75px;"
+                      column>
                 <v-layout v-for="data in datas.data"
                           v-if="datas.name == 'whole'"
                           align-start
@@ -17,13 +21,21 @@
                     </template>
                 </v-layout>
             </v-layout>
-            <div v-if="locker.length == 1" class="blur">
+            <Legend style="vertical-align: text-bottom" class="ml-4 d-inline-block" :datas="datas"
+                    v-for="datas in locker"></Legend>
+            <div style="margin-bottom:75px;" v-if="locker.length == 1" class="blur">
             </div>
+            <Button :disabled="!isActivate"
+                    :class="{primaryBackground:!isActivate}" class="apply">
+                <span :class="{'secondaryText--text':!isActivate}">신청하기</span>
+            </Button>
         </v-container>
+        <Footer></Footer>
     </div>
 </template>
 
 <script>
+    import Footer from "../components/Footer"
     import tableBlur from "../static/table-blur.png"
     import Login from "../components/Login"
     import Area from "../components/Area";
@@ -32,10 +44,13 @@
     import Room from "../components/Room";
     import Hallway from "../components/Hallway";
     import TopNav from "../components/TopNav";
+    import Button from "../components/Button";
+    import Legend from "../components/Legend";
 
     export default {
         name: 'index',
         components: {
+            Legend,
             TopNav,
             Login,
             Area,
@@ -43,10 +58,11 @@
             Stairs,
             Room,
             Hallway,
+            Footer,
+            Button
         },
         methods: {
             click: function (data) {
-                console.log(data)
                 if (data.type == 'area') {
 
                 } else if (data.type == 'locker') {
@@ -64,22 +80,19 @@
             locker: function () {
                 return this.$store.state.locker;
             },
+            userInfo: function () {
+                return this.$store.state.user;
+            }
         },
         data() {
             return {
+                isActivate: false,
                 isForm: false,
                 tableBlur,
             }
         },
-        async asyncData ({ $axios, params }) {
-            console.log('test')
-            try {
-                let pk = await $axios.$post('/auth/account/')
-                console.log(pk)
-                return { pk }
-            } catch (e) {
-                return { pk: [] }
-            }
+        mounted() {
+            this.$store.dispatch('LockerGet')
         }
     }
 </script>
@@ -101,5 +114,14 @@
         background-repeat: no-repeat;
         background-size: contain;
         background-image: url("../static/table-blur.png");
+    }
+
+    .apply {
+        width: 240px;
+        font-weight: bold;
+    }
+
+    .disabled {
+
     }
 </style>

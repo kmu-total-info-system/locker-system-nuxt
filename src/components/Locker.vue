@@ -5,12 +5,12 @@
                 :class="{broken:(data.state == 0),
                 already:(data.state == -1),
                 overlay:hover&&(data.state == 1)}"
-                class="pointer secondaryBackground border-collapse-lighten text-xs-center align-center
+                class="card-layout pointer secondaryBackground border-collapse-lighten text-xs-center align-center
                                 d-flex justify-space-between">
             <img v-if="(data.state == 0)" :src="x"/>
             <img v-if="(data.state == -1)" :src="already"/>
             <div :class="{'primaryText--text':(data.state != -1)}"
-                 class="d-inline-block">{{ data.value }}
+                 class=" d-inline-block text">{{ data.value }}
             </div>
         </v-card>
     </v-hover>

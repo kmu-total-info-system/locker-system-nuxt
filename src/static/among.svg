@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="100px" height="100px" viewBox="0 0 100 100" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 55 (78076) - https://sketchapp.com -->
+    <title>Symbolmark / main</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="0%" x2="0%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#B0F4FE" offset="0%"></stop>
+            <stop stop-color="#70C4F9" offset="41.577854%"></stop>
+            <stop stop-color="#7691E0" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="14.0644994%" y1="12.586826%" x2="86.0557457%" y2="85.1689482%" id="linearGradient-2">
+            <stop stop-color="#FDEA67" offset="0%"></stop>
+            <stop stop-color="#F5971A" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="67.8425316%" y1="31.3704989%" x2="0%" y2="100%" id="linearGradient-3">
+            <stop stop-color="#D698FF" offset="0%"></stop>
+            <stop stop-color="#4A99E1" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Symbolmark-/-main" fill-rule="nonzero">
+            <g id="Group-39">
+                <path d="M58.1538462,0 L93.8461538,0 C97.2448292,-6.23432929e-16 100,2.75517077 100,6.15384615 L100,41.8461538 C100,45.2448292 97.2448292,48 93.8461538,48 L58.1538462,48 C54.7551708,48 52,45.2448292 52,41.8461538 L52,6.15384615 C52,2.75517077 54.7551708,6.31973106e-16 58.1538462,0 Z" id="Rectangle-21-Copy-2" fill="url(#linearGradient-1)"></path>
+                <path d="M42.5,100 C19.0278981,100 0,80.9721019 0,57.5 C0,34.0278981 19.0278981,15 42.5,15 C65.9721019,15 85,34.0278981 85,57.5 C85,80.9721019 65.9721019,100 42.5,100 Z M31.5,82 C38.9558441,82 45,75.9558441 45,68.5 C45,61.0441559 38.9558441,55 31.5,55 C24.0441559,55 18,61.0441559 18,68.5 C18,75.9558441 24.0441559,82 31.5,82 Z" id="Combined-Shape" fill="url(#linearGradient-2)"></path>
+                <path d="M83.9342212,48 L58.1538462,48 C54.7551708,48 52,45.2448292 52,41.8461538 L52,16.0657788 C67.8442003,19.6835056 80.3164944,32.1557997 83.9342212,48 Z" id="Combined-Shape" fill="url(#linearGradient-3)"></path>
+            </g>
+        </g>
+    </g>
+</svg>
