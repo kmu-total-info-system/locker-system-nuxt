@@ -4,7 +4,7 @@
                                 d-flex justify-space-between">
         <div class="font-size-0">
             <img class="stairs"
-                 :style="{transform:'rotate('+data.direction+'deg)'}"
+                 :style="{transform:'rotate('+(-180+90*data.direction)+'deg)'}"
                  :src="upstairs"/>
         </div>
     </v-card>

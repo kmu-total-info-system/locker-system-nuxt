@@ -7,6 +7,9 @@
 <script>
     export default {
         name: "default",
+        created() {
+            this.$store.dispatch('LockerGet')
+        }
     }
 </script>
 <style>

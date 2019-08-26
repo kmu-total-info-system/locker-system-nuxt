@@ -2,14 +2,14 @@
     <v-hover v-slot:default="{ hover }">
         <v-card @click="click"
                 :height="60*data.height" :width="60*data.width"
-                :class="{broken:(data.state == 0),
-                already:(data.state == -1),
-                overlay:hover&&(data.state == 1)}"
+                :class="{broken:(data.state == 2),
+                already:(data.state == 3),
+                overlay:hover&&(data.state == 3)}"
                 class="card-layout pointer secondaryBackground border-collapse-lighten text-xs-center align-center
                                 d-flex justify-space-between">
-            <img v-if="(data.state == 0)" :src="x"/>
-            <img v-if="(data.state == -1)" :src="already"/>
-            <div :class="{'primaryText--text':(data.state != -1)}"
+            <img v-if="(data.state == 2)" :src="x"/>
+            <img v-if="(data.state == 3)" :src="already"/>
+            <div :class="{'primaryText--text':(data.state == 1)}"
                  class=" d-inline-block text">{{ data.value }}
             </div>
         </v-card>

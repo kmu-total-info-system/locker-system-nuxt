@@ -1,30 +1,19 @@
 <template>
-    <v-footer class="text-xs-center"
+    <v-footer class="py-3 mt-5 text-xs-center"
+              color="background"
               padless
               height="auto"
     >
         <v-card
-                color="secondaryText lighten-2"
+                color="background"
                 class="flex justify-space-between"
                 flat
                 tile
         >
-            <v-card-text>
-                <v-btn
-                        v-for="img in imgs"
-                        :key="img"
-                        class="mx-5"
-                        dark
-                        icon
-                >
-                    <v-img style="border-radius:50px;" size="24px" :src="img"></v-img>
-                </v-btn>
-            </v-card-text>
-            <v-card-text>
-                사물함 신청 서비스는 '아몽'과 함께합니다
-            </v-card-text>
-            <v-card-actions class="grey darken-3 justify-center">
-                {{ new Date().getFullYear() }} — <strong>Among</strong>
+            <v-img class="ma-auto mt-1" width="144" :src="among"/>
+            <v-img class="ma-auto mb-2" width="321" :src="footerText"/>
+            <v-card-actions class="font-size-12 pa-0 justify-center">
+                ⓒ 2019 among. All Rights Reserved.
             </v-card-actions>
         </v-card>
     </v-footer>
@@ -32,17 +21,21 @@
 
 <script>
     import among from "../static/among.svg"
-    import returnLogo from "../static/return-logo.jpg"
+    import footerText from "../static/footer-text.png"
 
     export default {
         name: "Footer",
         data() {
             return {
-                imgs: [among, returnLogo]
+                among,
+                footerText
             }
         }
     }
 </script>
 
 <style scoped>
+    .font-size-12 {
+        font-size: 12px;
+    }
 </style>

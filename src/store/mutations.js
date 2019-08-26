@@ -8,7 +8,12 @@ export default {
     Logout: function (state) {
         state.user = {};
     },
-    Locker: function (state, data) {
-        state.locker = data;
+    LockerId: function (state, data) {
+        state.lockerId = [];
+        state.lockerId = data;
+    },
+    LockerData: function (state, data) {
+        state.locker.push(data);
+        console.log(state.locker,'test')
     }
 }

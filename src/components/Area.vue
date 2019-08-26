@@ -20,12 +20,14 @@
             click: function () {
                 this.$emit('click', this.data);
                 this.$store.commit('CurrentChange', this.data);
+                console.log(this.$store.state.current);
             }
         },
         computed: {
             color: function () {
                 if (this.$store.state.current == 'whole' ||
                     this.$store.state.current == this.data.link) {
+                    console.log(this.data)
                     return this.data.color;
                 } else {
                     return '#e4e8ed';
