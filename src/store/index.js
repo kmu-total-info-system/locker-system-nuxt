@@ -19,7 +19,7 @@ const store = () => {
         state: {
             current: 'whole',
             user: process.browser ? vuexLocalStorage.storage.user : {},
-            locker: [],
+            lockerData: [],
             lockerId: [],
         },
         getters,

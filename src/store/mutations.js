@@ -12,8 +12,11 @@ export default {
         state.lockerId = [];
         state.lockerId = data;
     },
-    LockerData: function (state, data) {
-        state.locker.push(data);
-        console.log(state.locker,'test')
+    LockerData: function (state, {data, isWhole}) {
+        if (!isWhole && state.lockerData[1] != undefined) {
+            state.lockerData.pop();
+        }
+        state.lockerData.push(data);
+        console.log(state.lockerData)
     }
 }

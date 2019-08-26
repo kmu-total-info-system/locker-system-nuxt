@@ -1,12 +1,14 @@
 <template>
-    <button class="base-style" @click="onClicked">
-        <slot></slot>
-    </button>
+        <v-btn :loading="loading"
+               class="elevation-0 base-style" @click="onClicked">
+            <slot></slot>
+        </v-btn>
 </template>
 
 <script>
     export default {
         name: "Button",
+        props: ['loading'],
         methods: {
             onClicked: function (e) {
                 this.$emit('click', e)
@@ -32,4 +34,5 @@
         padding: 0 32px;
         font-size: 18px;
     }
+
 </style>

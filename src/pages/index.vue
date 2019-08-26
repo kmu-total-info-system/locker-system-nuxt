@@ -3,14 +3,31 @@
         <v-dialog max-width="300" v-if="!userInfo.is_active" v-model="isForm">
             <Login></Login>
         </v-dialog>
+        <v-snackbar
+                v-model="snackbar"
+                :timeout="500000"
+        >
+            {{snackbarText}}
+            <v-btn
+                    text
+                    color="primary--text"
+                    style="background-color: transparent"
+                    @click="snackbar = false"
+            >
+                닫기
+            </v-btn>
+        </v-snackbar>
         <TopNav style="margin-bottom:150px;" @click.stop="isForm = true" @click="login"></TopNav>
         <v-container style="max-width:1200px !important">
-            <Layout :datas="datas" v-for="datas in lockerId"></Layout>
-            <div style="margin-bottom:75px;" v-if="locker.length == 1" class="blur"></div>
-            <Button :disabled="!isActivate"
-                    :class="{primaryBackground:!isActivate}" class="apply">
-                <span :class="{'secondaryText--text':!isActivate}">신청하기</span>
-            </Button>
+            <Layout @lockerClicked="ready" :datas="datas" :index="index" v-for="(datas,index) in lockerId"></Layout>
+            <div style="margin-bottom:75px;" v-if="lockerData.length == 1" class="blur"></div>
+            <v-hover v-slot:default="{ hover }">
+                <Button :disabled="!isActivate" @click="apply" :loading="loading" v-model="loading"
+                        :class="{overlay:isActivate&&hover,primaryBackground:!isActivate,primary:isActivate}"
+                        class="apply">
+                    <span style="color:white" :class="{'secondaryText--text':!isActivate}">신청하기</span>
+                </Button>
+            </v-hover>
         </v-container>
         <Footer></Footer>
     </div>
@@ -35,10 +52,13 @@
         },
         data() {
             return {
+                snackbar: false,
+                snackbarText: '',
                 isActivate: false,
                 isForm: false,
                 tableBlur,
-                lockerData: []
+                blockId: undefined,
+                loading: false
             }
         },
         methods: {
@@ -47,15 +67,36 @@
             },
             login: function () {
                 this.isForm = true;
+            },
+            ready: function (data) {
+                this.isActivate = true;
+                this.blockId = data.id;
+            },
+            apply: function () {
+                this.loading = true;
+                this.$axios.$post('/locker/transaction', {
+                    block: this.blockId
+                })
+                    .then(res => {
+                        this.loading = false;
+                        this.snackbar = true;
+                        this.snackbarText = '신청이 완료되었습니다'
+                        console.log(res);
+                    })
+                    .catch(err => {
+                        this.loading = false;
+                        this.snackbar = true;
+                        this.snackbarText = err.message
+                        console.log(err.data);
+                    })
             }
         },
         computed: {
             lockerId: function () {
                 return this.$store.state.lockerId;
             },
-            locker: function () {
-                console.log(this.$store.state.locker);
-                return this.$store.state.locker;
+            lockerData: function () {
+                return this.$store.state.lockerData;
             },
             userInfo: function () {
                 return this.$store.state.user;
@@ -94,6 +135,12 @@
 
     .disabled {
 
+    }
+
+    .overlay {
+        background-image: url("../static/overlay-10.png");
+        background-size: cover;
+        background-repeat: no-repeat;
     }
 
     @media screen and (max-width: 920px) {
