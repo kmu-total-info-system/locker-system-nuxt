@@ -17,7 +17,7 @@
                 닫기
             </v-btn>
         </v-snackbar>
-        <TopNav @click.stop="isForm = true" @click="login"></TopNav>
+        <TopNav @click="login" @logout="logout"></TopNav>
         <v-container style="max-width:1200px !important">
             <div style="margin-top:20px;margin-bottom:100px; width:300px;" class="pa-1">
                 <span class="mr-5" style="margin-top:2px;">
@@ -142,6 +142,9 @@
                     this.snackbar = true;
                     this.snackbarText = '로그인 후 이용부탁드립니다'
                 }
+            },
+            logout: function () {
+                this.isForm = false;
             }
         },
         computed: {
