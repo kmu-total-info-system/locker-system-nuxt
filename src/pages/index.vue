@@ -30,13 +30,15 @@
         <v-container style="max-width:1200px !important">
             <Layout @lockerClicked="ready" :datas="datas" v-for="datas in lockerId"></Layout>
             <div style="margin-bottom:75px;" v-if="lockerData.length == 1" class="blur"></div>
-            <v-hover v-slot:default="{ hover }">
-                <Button :disabled="!isActivate" @click="apply" :loading="loading" v-model="loading"
-                        :class="{overlay:isActivate&&hover,primaryBackground:!isActivate,primary:isActivate}"
-                        class="apply">
-                    <span style="color:white" :class="{'secondaryText--text':!isActivate}">신청하기</span>
-                </Button>
-            </v-hover>
+            <Button :disabled="clickNone||!isActivate" @click="apply" :loading="loading" v-model="loading"
+                    :class="{
+                    overlay:isActivate,
+                        primaryBackground:clickNone||!isActivate
+                        ,primary:isActivate}"
+                    class="apply">
+                    <span style="color:white"
+                          :class="{'secondaryText--text':clickNone||!isActivate}">신청하기</span>
+            </Button>
         </v-container>
         <Footer></Footer>
     </div>
@@ -140,6 +142,9 @@
             }
         },
         computed: {
+            clickNone: function () {
+                return this.$store.state.clickNone;
+            },
             lockerId: function () {
                 return this.$store.state.lockerId;
             },
@@ -200,14 +205,11 @@
         vertical-align: text-bottom;
     }
 
-    .disabled {
-
-    }
-
-    .overlay {
+    .overlay:hover {
         background-image: url("../static/overlay-10.png");
         background-size: cover;
         background-repeat: no-repeat;
+        z-index: 100;
     }
 
     @media screen and (max-width: 920px) {

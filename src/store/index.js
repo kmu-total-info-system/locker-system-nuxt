@@ -9,8 +9,9 @@ import actions from "./actions";
 const store = () => {
     return new Vuex.Store({
         state: {
+            clickNone: true,
             current: 'whole',
-            lockerCurrent:'',
+            lockerCurrent: '',
             user: {},
             lockerData: [],
             lockerId: [],
