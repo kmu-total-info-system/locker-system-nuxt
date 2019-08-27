@@ -5,7 +5,8 @@
                 :height="60*data.height" :width="60*data.width"
                 :class="{broken:(data.state == 2),
                 already:(data.state == 3),
-                overlay:hover&&(data.state == 1)}"
+                overlay:hover&&(data.state == 1),
+                complete:(data.state==4)}"
                 class="card-layout pointer
                 border-collapse-lighten text-xs-center align-center
                                 d-flex justify-space-between">
@@ -57,9 +58,6 @@
                 }
             }
         },
-        created() {
-            window.addEventListener('click', this.clickEvent);
-        }
     }
 </script>
 <style type="text/css">

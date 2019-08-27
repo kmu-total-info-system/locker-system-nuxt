@@ -21,24 +21,24 @@
         methods: {
             click: function (e) {
                 this.$emit('click', e)
-                console.log('test2')
             },
             async logout() {
                 await this.$auth.logout();
                 this.$store.commit('Logout');
-            }
+            },
+
         },
         data() {
             return {
                 loading: false,
-                safebox
+                safebox,
             }
         },
         computed: {
             userInfo: function () {
                 return this.$store.state.user;
             }
-        }
+        },
     }
 </script>
 

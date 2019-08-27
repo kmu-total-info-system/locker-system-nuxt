@@ -17,7 +17,16 @@
                 닫기
             </v-btn>
         </v-snackbar>
-        <TopNav style="margin-bottom:150px;" @click.stop="isForm = true" @click="login"></TopNav>
+        <TopNav @click.stop="isForm = true" @click="login"></TopNav>
+        <v-container style="max-width:1200px !important">
+            <div style="margin-top:20px;margin-bottom:100px; width:300px;" class="pa-1">
+                <span class="mr-5" style="margin-top:2px;">
+                    서버시간: {{timeMutated}}
+                </span>
+                <span>내가 신청한 사물함: {{completeLocker.value}}</span>
+            </div>
+        </v-container>
+
         <v-container style="max-width:1200px !important">
             <Layout @lockerClicked="ready" :datas="datas" v-for="datas in lockerId"></Layout>
             <div style="margin-bottom:75px;" v-if="lockerData.length == 1" class="blur"></div>
@@ -40,6 +49,7 @@
     import TopNav from "../components/TopNav";
     import Button from "../components/Button";
     import Layout from "../components/Layout";
+    import Locker from "../components/Locker";
 
     export default {
         name: 'index',
@@ -48,7 +58,8 @@
             TopNav,
             Login,
             Footer,
-            Button
+            Button,
+            Locker
         },
         data() {
             return {
@@ -58,10 +69,45 @@
                 isForm: false,
                 tableBlur,
                 blockId: undefined,
-                loading: false
+                loading: false,
+                currentTime: 0,
+                timeMutated: 0,
+                localTime: 0,
+                completeLocker: []
             }
         },
         methods: {
+            mutateTime: function (data) {
+                let d = new Date(data);
+                data = d.getFullYear() + '년'
+                    + (d.getMonth() + 1) + '월'
+                    + d.getDate() + '일'
+                    + d.getHours() + '시'
+                    + d.getMinutes() + '분'
+                    + d.getSeconds() + '초';
+                return data;
+            },
+            setTime: function () {
+                this.$axios.$get('/locker/time')
+                    .then(res => {
+                        this.currentTime = new Date(res.time);
+                        this.timeMutated = this.mutateTime(res.time);
+                        this.localTime = new Date();
+                        setInterval(() => {
+                            let nowLocalTime = new Date();
+                            this.currentTime = new Date(this.currentTime.getTime() + (nowLocalTime - this.localTime));
+                            this.localTime = new Date(nowLocalTime.getTime());
+
+                            this.timeMutated = this.mutateTime(this.currentTime);
+                        }, 100);
+                        setInterval(() => {
+                            this.setTime();
+                        }, 60000)
+                    })
+                    .catch(err => {
+                        console.log(err)
+                    })
+            },
             formExit: function () {
                 this.isForm = false;
             },
@@ -100,7 +146,6 @@
         },
         computed: {
             lockerId: function () {
-                console.log(this.$store.state.lockerId,'lockertesttest')
                 return this.$store.state.lockerId;
             },
             lockerData: function () {
@@ -113,6 +158,17 @@
                 return this.$store.state.lockerCurrent;
             }
         },
+        created() {
+            this.setTime();
+            this.$axios.$get('/locker/transaction')
+                .then(res => {
+                    console.log(res.block.state)
+                    this.completeLocker = res.block;
+                })
+                .catch(err => {
+                    console.log(err)
+                })
+        }
     }
 </script>
 

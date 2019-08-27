@@ -14,7 +14,12 @@
 </script>
 <style>
     body {
-        margin: 0
+        margin: 0;
+        -ms-overflow-style: none;
+    }
+
+    ::-webkit-scrollbar {
+        display: none !important;
     }
 </style>
 <style scoped>

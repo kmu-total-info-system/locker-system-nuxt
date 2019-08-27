@@ -154,7 +154,6 @@
                             }
                             this.items[itemsIdx].push(locker[lockerIdx])
                         }
-                        console.log(this.$store.state.lockerData, 'test1')
                         this.$store.commit('LockerData', {data: this.items, isWhole: true});
                         this.layoutData = this.lockerData;
                     })
