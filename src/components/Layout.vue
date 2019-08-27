@@ -1,6 +1,7 @@
 <template>
     <div>
-        <div v-for="locker in layoutData" style="margin-bottom:80px;">
+        <div v-model="lockerDataIdx" :lockerDataIdx="idx" v-for="(locker,idx) in layoutData"
+             style="margin-bottom:80px;">
             <div>
                 <v-layout class="d-inline-block mb-3"
                           style="min-width:720px;"
@@ -44,7 +45,7 @@
                                 <span>고장</span>
                             </div>
                         </div>
-                        <template v-else-if="!data.color">
+                        <template v-else-if="!data.color&&data.value">
                             <img :src="upstairs"
                                  class="mr-2 d-inline-block stairs">
                             <div v-if="!data.color" class="d-inline-block font-size-12">{{data.value}}</div>
@@ -90,6 +91,7 @@
                 already,
                 upstairs,
                 layoutData: [],
+                lockerDataIdx: 0,
             }
         },
         methods: {
@@ -117,29 +119,29 @@
                         for (let arrIdx = 0; arrIdx < locker.length; arrIdx++) {
                             let same = false;
                             if (locker[arrIdx].type == 4) {
-                                this.legend = [];
-                                this.legend.push({
+                                this.legend[this.lockerDataIdx] = [];
+                                this.legend[this.lockerDataIdx].push({
                                     type: locker[arrIdx].type,
                                     color: locker[arrIdx].color
                                 })
                                 break;
                             }
                             if (locker[arrIdx].type == 2) {
-                                if (this.legend.length == 0) {
-                                    this.legend.push({
+                                if (this.legend[this.lockerDataIdx].length == 0) {
+                                    this.legend[this.lockerDataIdx].push({
                                         value: [locker[arrIdx].value],
                                         color: locker[arrIdx].color
                                     });
                                 } else {
                                     for (let legendIdx = 0; legendIdx < this.legend.length; legendIdx++) {
-                                        if (this.legend[legendIdx].color == locker[arrIdx].color) {
-                                            this.legend[legendIdx].value.push(locker[arrIdx].value);
+                                        if (this.legend[this.lockerDataIdx][legendIdx].color == locker[arrIdx].color) {
+                                            this.legend[this.lockerDataIdx][legendIdx].value.push(locker[arrIdx].value);
                                             same = true;
                                             break;
                                         }
                                     }
                                     if (!same) {
-                                        this.legend.push({
+                                        this.legend[this.lockerDataIdx].push({
                                             value: [locker[arrIdx].value],
                                             color: locker[arrIdx].color
                                         });
@@ -147,6 +149,7 @@
                                 }
                             } else if (locker[arrIdx].type == 5) {
                                 if (!isStair) {
+                                    console.log('test')
                                     this.legend.push({
                                         value: '계단',
                                     });
