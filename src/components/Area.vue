@@ -1,7 +1,7 @@
 <template>
     <v-hover v-slot:default="{ hover }">
         <v-card @click="click"
-                :height="60*data.height" :width="60*data.width"
+                :height="58*data.height" :width="58*data.width"
                 :style="{backgroundColor:color}"
                 :class="{overlay:hover}"
                 class="card-layout z-index-20 elevation-collapse text-xs-center align-center pointer

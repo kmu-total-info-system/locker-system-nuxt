@@ -2,7 +2,7 @@
     <v-hover v-slot:default="{ hover }">
         <v-card @click="click" ref="locker"
                 :style="{backgroundColor:backgroundColor}"
-                :height="60*data.height" :width="60*data.width"
+                :height="58*data.height" :width="58*data.width"
                 :class="{broken:(data.state == 2),
                 already:(data.state == 3),
                 overlay:hover&&(data.state == 1),

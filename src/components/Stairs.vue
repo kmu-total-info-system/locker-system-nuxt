@@ -1,5 +1,5 @@
 <template>
-    <v-card :height="60*data.height" :width="60*data.width"
+    <v-card :height="58*data.height" :width="58*data.width"
             class="card-layout elevation-0 text-xs-center align-center background
                                 d-flex justify-space-between">
         <div class="font-size-0">

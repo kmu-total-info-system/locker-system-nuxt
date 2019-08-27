@@ -1,45 +1,47 @@
 <template>
     <div>
-        <v-dialog max-width="300" v-if="!userInfo.is_active" v-model="isForm">
-            <Login></Login>
-        </v-dialog>
-        <v-snackbar
-                v-model="snackbar"
-                :timeout="5000"
-        >
-            {{snackbarText}}
-            <v-btn
-                    text
-                    color="primary--text"
-                    style="background-color: transparent"
-                    @click="snackbar = false"
+
+        <div style="min-height:calc(100vh - 134px)">
+            <v-dialog max-width="300" v-if="!userInfo.is_active" v-model="isForm">
+                <Login></Login>
+            </v-dialog>
+            <v-snackbar
+                    v-model="snackbar"
+                    :timeout="5000"
             >
-                닫기
-            </v-btn>
-        </v-snackbar>
-        <TopNav @click.stop="isForm = true" @click="login"></TopNav>
-        <v-container style="max-width:1200px !important">
-            <div style="margin-top:20px;margin-bottom:100px; width:300px;" class="pa-1">
+                {{snackbarText}}
+                <v-btn
+                        text
+                        color="primary--text"
+                        style="background-color: transparent"
+                        @click="snackbar = false"
+                >
+                    닫기
+                </v-btn>
+            </v-snackbar>
+            <TopNav @click.stop="isForm = true" @click="login"></TopNav>
+            <v-container style="max-width:1200px !important">
+                <div style="margin-top:20px;margin-bottom:100px; width:300px;" class="pa-1">
                 <span class="mr-5" style="margin-top:2px;">
                     서버시간: {{mutateTime(currentTime)}}
                 </span>
-                <span v-if="completeLocker">내가 신청한 사물함: {{completeLocker.value}}</span>
-            </div>
-        </v-container>
-
-        <v-container style="max-width:1200px !important">
-            <Layout @lockerClicked="ready" :datas="datas" v-for="datas in lockerId"></Layout>
-            <div style="margin-bottom:75px;" v-if="lockerData.length == 1" class="blur"></div>
-            <Button :disabled="clickNone||!isActivate" @click="apply" :loading="loading" v-model="loading"
-                    :class="{
+                    <span v-if="completeLocker">내가 신청한 사물함: {{completeLocker.value}}</span>
+                </div>
+            </v-container>
+            <v-container style="max-width:1200px !important;">
+                <Layout @lockerClicked="ready" :datas="datas" v-for="datas in lockerId"></Layout>
+                <div style="margin-bottom:75px;" v-if="lockerData.length == 1" class="blur"></div>
+                <Button :disabled="clickNone||!isActivate" @click="apply" :loading="loading" v-model="loading"
+                        :class="{
                     overlay:isActivate,
                         primaryBackground:clickNone||!isActivate
                         ,primary:isActivate}"
-                    class="apply">
+                        class="apply">
                     <span style="color:white"
                           :class="{'secondaryText--text':clickNone||!isActivate}">신청하기</span>
-            </Button>
-        </v-container>
+                </Button>
+            </v-container>
+        </div>
         <Footer></Footer>
     </div>
 </template>
