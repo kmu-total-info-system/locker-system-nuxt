@@ -32,11 +32,12 @@
             click: function () {
                 this.isClicked = !this.isClicked;
                 if (this.isClicked) {
+                    this.$store.commit('ClickNoneChange', false);
                     this.$store.commit('LockerCurrentChange', this.data);
                 } else {
                     this.$store.commit('LockerCurrentChange', '');
+                    this.$store.commit('ClickNoneChange', true);
                 }
-                console.log(this.data)
                 this.$emit('click', this.data, this.isClicked);
             }
         },
@@ -49,7 +50,7 @@
         },
         computed: {
             backgroundColor: function () {
-                if (this.$store.state.lockerCurrent == this.data.id) {
+                if (this.$store.state.lockerCurrent == this.data.id && !this.$store.state.clickNone) {
                     this.isClicked = true;
                     return this.data.color;
                 } else {

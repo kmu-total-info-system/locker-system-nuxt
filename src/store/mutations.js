@@ -5,6 +5,9 @@ export default {
     LockerCurrentChange: function (state, data) {
         state.lockerCurrent = data.id;
     },
+    ClickNoneChange: function (state, data) {
+        state.clickNone = data;
+    },
     User: function (state, data) {
         state.user = data;
     },

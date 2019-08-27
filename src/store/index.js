@@ -10,7 +10,7 @@ const store = () => {
     return new Vuex.Store({
         state: {
             current: 'whole',
-            lockerCurrent: '',
+            lockerCurrent:'',
             user: {},
             lockerData: [],
             lockerId: [],

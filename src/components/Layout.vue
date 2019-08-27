@@ -7,7 +7,7 @@
                       align-start
                       justify-start row fill-height>
                 <template v-for="d in data">
-                    <Area @click="click" v-if="(d.type==2)" :data="d"></Area>
+                    <Area @areaClick="click" v-if="(d.type==2)" :data="d"></Area>
                     <Locker @click="click" v-else-if="(d.type==4)" :data="d"></Locker>
                     <Stairs v-else-if="(d.type==5)" :data="d"></Stairs>
                     <Room v-else-if="(d.type==3)" :data="d"></Room>
@@ -103,6 +103,7 @@
                 this.items = [[]];
                 this.$axios.$get('/locker/' + this.datas.id)
                     .then(res => {
+                        console.log('tes23123213t')
                         let locker = res.blocks;
                         let isStair = false;
                         for (let arrIdx = 0; arrIdx < locker.length; arrIdx++) {
@@ -162,13 +163,14 @@
                     })
             }
         },
-        created() {
-            this.getLocker();
-        },
         computed: {
             lockerData: function () {
+                console.log(this.$store.state.lockerData)
                 return this.$store.state.lockerData;
             }
+        },
+        created() {
+            this.getLocker();
         },
         watch: {
             datas: function () {
