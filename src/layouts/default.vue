@@ -9,6 +9,8 @@
         name: "default",
         created() {
             this.$store.dispatch('LockerGet')
+            if (this.$auth.user)
+                this.$store.commit('User', this.$auth.user);
         }
     }
 </script>

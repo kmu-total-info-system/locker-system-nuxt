@@ -21,9 +21,9 @@
         <v-container style="max-width:1200px !important">
             <div style="margin-top:20px;margin-bottom:100px; width:300px;" class="pa-1">
                 <span class="mr-5" style="margin-top:2px;">
-                    서버시간: {{timeMutated}}
+                    서버시간: {{mutateTime(currentTime)}}
                 </span>
-                <span>내가 신청한 사물함: {{completeLocker.value}}</span>
+                <span v-if="completeLocker">내가 신청한 사물함: {{completeLocker.value}}</span>
             </div>
         </v-container>
 
@@ -70,8 +70,6 @@
                 tableBlur,
                 blockId: undefined,
                 loading: false,
-                currentTime: 0,
-                timeMutated: 0,
                 localTime: 0,
                 completeLocker: []
             }
@@ -91,14 +89,11 @@
                 this.$axios.$get('/locker/time')
                     .then(res => {
                         this.currentTime = new Date(res.time);
-                        this.timeMutated = this.mutateTime(res.time);
                         this.localTime = new Date();
                         setInterval(() => {
                             let nowLocalTime = new Date();
                             this.currentTime = new Date(this.currentTime.getTime() + (nowLocalTime - this.localTime));
                             this.localTime = new Date(nowLocalTime.getTime());
-
-                            this.timeMutated = this.mutateTime(this.currentTime);
                         }, 100);
                         setInterval(() => {
                             this.setTime();
@@ -158,11 +153,16 @@
                 return this.$store.state.lockerCurrent;
             }
         },
+        async asyncData({$axios}) {
+            let data = await $axios.$get('/locker/time');
+            console.log(data)
+            return {currentTime: new Date(data.time)}
+
+        },
         created() {
             this.setTime();
             this.$axios.$get('/locker/transaction')
                 .then(res => {
-                    console.log(res.block.state)
                     this.completeLocker = res.block;
                 })
                 .catch(err => {
