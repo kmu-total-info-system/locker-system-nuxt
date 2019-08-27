@@ -5,7 +5,7 @@
         </v-dialog>
         <v-snackbar
                 v-model="snackbar"
-                :timeout="500000"
+                :timeout="5000"
         >
             {{snackbarText}}
             <v-btn
@@ -19,7 +19,7 @@
         </v-snackbar>
         <TopNav style="margin-bottom:150px;" @click.stop="isForm = true" @click="login"></TopNav>
         <v-container style="max-width:1200px !important">
-            <Layout @lockerClicked="ready" :datas="datas" :index="index" v-for="(datas,index) in lockerId"></Layout>
+            <Layout @lockerClicked="ready" :datas="datas" v-for="datas in lockerId"></Layout>
             <div style="margin-bottom:75px;" v-if="lockerData.length == 1" class="blur"></div>
             <v-hover v-slot:default="{ hover }">
                 <Button :disabled="!isActivate" @click="apply" :loading="loading" v-model="loading"
@@ -69,7 +69,11 @@
                 this.isForm = true;
             },
             ready: function (data) {
-                this.isActivate = true;
+                if (this.$store.state.lockerCurrent == data.id)
+                    this.isActivate = true;
+                else {
+                    this.isActivate = false;
+                }
                 this.blockId = data.id;
             },
             apply: function () {
@@ -96,6 +100,7 @@
         },
         computed: {
             lockerId: function () {
+                console.log(this.$store.state.lockerId,'lockertesttest')
                 return this.$store.state.lockerId;
             },
             lockerData: function () {
@@ -104,6 +109,9 @@
             userInfo: function () {
                 return this.$store.state.user;
             },
+            lockerCurrent: function () {
+                return this.$store.state.lockerCurrent;
+            }
         },
     }
 </script>
