@@ -17,28 +17,26 @@
                 닫기
             </v-btn>
         </v-snackbar>
-        <TopNav @click="login" @logout="logout"></TopNav>
+        <TopNav @click.stop="isForm = true" @click="login"></TopNav>
         <v-container style="max-width:1200px !important">
             <div style="margin-top:20px;margin-bottom:100px; width:300px;" class="pa-1">
                 <span class="mr-5" style="margin-top:2px;">
-                    서버시간: {{timeMutated}}
+                    서버시간: {{mutateTime(currentTime)}}
                 </span>
-                <span>내가 신청한 사물함: {{completeLocker.value}}</span>
+                <span v-if="completeLocker">내가 신청한 사물함: {{completeLocker.value}}</span>
             </div>
         </v-container>
 
         <v-container style="max-width:1200px !important">
             <Layout @lockerClicked="ready" :datas="datas" v-for="datas in lockerId"></Layout>
             <div style="margin-bottom:75px;" v-if="lockerData.length == 1" class="blur"></div>
-            <Button :disabled="clickNone||!isActivate" @click="apply" :loading="loading" v-model="loading"
-                    :class="{
-                    overlay:isActivate,
-                        primaryBackground:clickNone||!isActivate
-                        ,primary:isActivate}"
-                    class="apply">
-                    <span style="color:white"
-                          :class="{'secondaryText--text':clickNone||!isActivate}">신청하기</span>
-            </Button>
+            <v-hover v-slot:default="{ hover }">
+                <Button :disabled="!isActivate" @click="apply" :loading="loading" v-model="loading"
+                        :class="{overlay:isActivate&&hover,primaryBackground:!isActivate,primary:isActivate}"
+                        class="apply">
+                    <span style="color:white" :class="{'secondaryText--text':!isActivate}">신청하기</span>
+                </Button>
+            </v-hover>
         </v-container>
         <Footer></Footer>
     </div>
@@ -72,8 +70,6 @@
                 tableBlur,
                 blockId: undefined,
                 loading: false,
-                currentTime: 0,
-                timeMutated: 0,
                 localTime: 0,
                 completeLocker: []
             }
@@ -89,14 +85,19 @@
                     + d.getSeconds() + '초';
                 return data;
             },
-            async setTime() {
-                await this.$axios.$get('/locker/time')
+            setTime: function () {
+                this.$axios.$get('/locker/time')
                     .then(res => {
-                        console.log('test')
                         this.currentTime = new Date(res.time);
-                        this.timeMutated = this.mutateTime(res.time);
                         this.localTime = new Date();
-
+                        setInterval(() => {
+                            let nowLocalTime = new Date();
+                            this.currentTime = new Date(this.currentTime.getTime() + (nowLocalTime - this.localTime));
+                            this.localTime = new Date(nowLocalTime.getTime());
+                        }, 100);
+                        setInterval(() => {
+                            this.setTime();
+                        }, 60000)
                     })
                     .catch(err => {
                         console.log(err)
@@ -129,9 +130,6 @@
                         })
                         .catch(err => {
                             this.snackbarText = err.response.data.message;
-                            if (err.response.status == 500) {
-                                this.snackbarText = '서버 장애로인한 오류입니다'
-                            }
                             this.loading = false;
                             this.snackbar = true;
                         })
@@ -139,20 +137,13 @@
                     this.snackbar = true;
                     this.snackbarText = '로그인 후 이용부탁드립니다'
                 }
-            },
-            logout: function () {
-                this.isForm = false;
             }
         },
         computed: {
-            clickNone: function () {
-                return this.$store.state.clickNone;
-            },
             lockerId: function () {
                 return this.$store.state.lockerId;
             },
             lockerData: function () {
-                console.log(this.$store.state.lockerData, 'test')
                 return this.$store.state.lockerData;
             },
             userInfo: function () {
@@ -162,30 +153,22 @@
                 return this.$store.state.lockerCurrent;
             }
         },
+        async asyncData({$axios}) {
+            let data = await $axios.$get('/locker/time');
+            console.log(data)
+            return {currentTime: new Date(data.time)}
+
+        },
         created() {
             this.setTime();
             this.$axios.$get('/locker/transaction')
                 .then(res => {
-                    console.log(res.block.state)
                     this.completeLocker = res.block;
                 })
                 .catch(err => {
                     console.log(err)
                 })
-            setInterval(() => {
-                let nowLocalTime = new Date();
-                if (this.currentTime != 0) {
-                    this.currentTime = new Date(this.currentTime.getTime() + (nowLocalTime - this.localTime));
-                    this.localTime = new Date(nowLocalTime.getTime());
-                    this.timeMutated = this.mutateTime(this.currentTime);
-                }
-
-            }, 100);
-            setInterval(() => {
-                this.setTime();
-            }, 60000)
         }
-
     }
 </script>
 
@@ -217,11 +200,14 @@
         vertical-align: text-bottom;
     }
 
-    .overlay:hover {
+    .disabled {
+
+    }
+
+    .overlay {
         background-image: url("../static/overlay-10.png");
         background-size: cover;
         background-repeat: no-repeat;
-        z-index: 100;
     }
 
     @media screen and (max-width: 920px) {
