@@ -18,7 +18,8 @@
         name: "Area",
         methods: {
             click: function () {
-                this.$emit('click', this.data);
+                this.$emit('areaClick', this.data);
+                this.$store.commit('ClickNoneChange', true);
                 this.$store.commit('CurrentChange', this.data);
             }
         },
