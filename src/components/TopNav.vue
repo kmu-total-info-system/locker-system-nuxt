@@ -20,11 +20,13 @@
         name: "TopNav",
         methods: {
             click: function (e) {
+                console.log('test')
                 this.$emit('click', e)
             },
-            async logout() {
+            async logout(e) {
                 await this.$auth.logout();
                 this.$store.commit('Logout');
+                this.$emit('logout', e)
             },
 
         },
