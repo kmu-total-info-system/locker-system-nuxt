@@ -30,13 +30,15 @@
         <v-container style="max-width:1200px !important">
             <Layout @lockerClicked="ready" :datas="datas" v-for="datas in lockerId"></Layout>
             <div style="margin-bottom:75px;" v-if="lockerData.length == 1" class="blur"></div>
-            <v-hover v-slot:default="{ hover }">
-                <Button :disabled="!isActivate" @click="apply" :loading="loading" v-model="loading"
-                        :class="{overlay:isActivate&&hover,primaryBackground:!isActivate,primary:isActivate}"
-                        class="apply">
-                    <span style="color:white" :class="{'secondaryText--text':!isActivate}">신청하기</span>
-                </Button>
-            </v-hover>
+            <Button :disabled="clickNone||!isActivate" @click="apply" :loading="loading" v-model="loading"
+                    :class="{
+                    overlay:isActivate,
+                        primaryBackground:clickNone||!isActivate
+                        ,primary:isActivate}"
+                    class="apply">
+                    <span style="color:white"
+                          :class="{'secondaryText--text':clickNone||!isActivate}">신청하기</span>
+            </Button>
         </v-container>
         <Footer></Footer>
     </div>
@@ -87,22 +89,14 @@
                     + d.getSeconds() + '초';
                 return data;
             },
-            setTime: function () {
-                this.$axios.$get('/locker/time')
+            async setTime() {
+                await this.$axios.$get('/locker/time')
                     .then(res => {
+                        console.log('test')
                         this.currentTime = new Date(res.time);
                         this.timeMutated = this.mutateTime(res.time);
                         this.localTime = new Date();
-                        setInterval(() => {
-                            let nowLocalTime = new Date();
-                            this.currentTime = new Date(this.currentTime.getTime() + (nowLocalTime - this.localTime));
-                            this.localTime = new Date(nowLocalTime.getTime());
 
-                            this.timeMutated = this.mutateTime(this.currentTime);
-                        }, 100);
-                        setInterval(() => {
-                            this.setTime();
-                        }, 60000)
                     })
                     .catch(err => {
                         console.log(err)
@@ -135,6 +129,9 @@
                         })
                         .catch(err => {
                             this.snackbarText = err.response.data.message;
+                            if (err.response.status == 500) {
+                                this.snackbarText = '서버 장애로인한 오류입니다'
+                            }
                             this.loading = false;
                             this.snackbar = true;
                         })
@@ -145,10 +142,14 @@
             }
         },
         computed: {
+            clickNone: function () {
+                return this.$store.state.clickNone;
+            },
             lockerId: function () {
                 return this.$store.state.lockerId;
             },
             lockerData: function () {
+                console.log(this.$store.state.lockerData, 'test')
                 return this.$store.state.lockerData;
             },
             userInfo: function () {
@@ -168,7 +169,20 @@
                 .catch(err => {
                     console.log(err)
                 })
+            setInterval(() => {
+                let nowLocalTime = new Date();
+                if (this.currentTime != 0) {
+                    this.currentTime = new Date(this.currentTime.getTime() + (nowLocalTime - this.localTime));
+                    this.localTime = new Date(nowLocalTime.getTime());
+                    this.timeMutated = this.mutateTime(this.currentTime);
+                }
+
+            }, 100);
+            setInterval(() => {
+                this.setTime();
+            }, 60000)
         }
+
     }
 </script>
 
@@ -200,14 +214,11 @@
         vertical-align: text-bottom;
     }
 
-    .disabled {
-
-    }
-
-    .overlay {
+    .overlay:hover {
         background-image: url("../static/overlay-10.png");
         background-size: cover;
         background-repeat: no-repeat;
+        z-index: 100;
     }
 
     @media screen and (max-width: 920px) {

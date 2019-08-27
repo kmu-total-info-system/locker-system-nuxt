@@ -1,8 +1,8 @@
 <template>
-        <v-btn :loading="loading"
+        <button :loading="loading"
                class="elevation-0 base-style" @click="onClicked">
             <slot></slot>
-        </v-btn>
+        </button>
 </template>
 
 <script>
