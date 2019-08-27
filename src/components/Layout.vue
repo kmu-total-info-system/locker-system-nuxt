@@ -70,6 +70,7 @@
 
     export default {
         name: "Layout",
+        transition: 'fade',
         props: ['datas'],
         components: {
             Area,
