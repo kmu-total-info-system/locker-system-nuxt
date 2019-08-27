@@ -1,60 +1,62 @@
 <template>
     <div>
         <div v-for="locker in layoutData" style="margin-bottom:80px;">
-            <v-layout class="d-inline-block mb-3"
-                      style="min-width:720px;"
-                      column>
-                <v-layout v-for="data in locker"
-                          align-start
-                          justify-start row fill-height>
-                    <template v-for="d in data">
-                        <Area @click="click" v-if="(d.type==2)" :data="d"></Area>
-                        <Locker @click="click" v-else-if="(d.type==4)" :data="d"></Locker>
-                        <Stairs v-else-if="(d.type==5)" :data="d"></Stairs>
-                        <Room v-else-if="(d.type==3)" :data="d"></Room>
-                        <Hallway v-else-if="(d.type==1)" :data="d"></Hallway>
-                    </template>
+            <div>
+                <v-layout class="d-inline-block mb-3"
+                          style="min-width:720px;"
+                          column>
+                    <v-layout v-for="data in locker"
+                              align-start
+                              justify-start row fill-height>
+                        <template v-for="d in data">
+                            <Area @click="click" v-if="(d.type==2)" :data="d"></Area>
+                            <Locker @click="click" v-else-if="(d.type==4)" :data="d"></Locker>
+                            <Stairs v-else-if="(d.type==5)" :data="d"></Stairs>
+                            <Room v-else-if="(d.type==3)" :data="d"></Room>
+                            <Hallway v-else-if="(d.type==1)" :data="d"></Hallway>
+                        </template>
+                    </v-layout>
                 </v-layout>
-            </v-layout>
-            <v-card class="ml-4 pa-2 elevation-0 font-size-0 legend d-inline-block">
-                <div class="mb-2 mobile" v-for="data in legend">
-                    <div v-if="data.type == 4" class="locker-mobile-container">
-                        <div class="mb-2 font-size-12 locker-mobile">
-                            <div class="legend-box mr-2 d-inline-block">
+                <v-card class="ml-4 pa-2 elevation-0 font-size-0 legend d-inline-block">
+                    <div class="mb-2 mobile" v-for="data in legend">
+                        <div v-if="data.type == 4" class="locker-mobile-container">
+                            <div class="mb-2 font-size-12 locker-mobile">
+                                <div class="legend-box mr-2 d-inline-block">
+                                </div>
+                                <span>신청가능</span>
                             </div>
-                            <span>신청가능</span>
-                        </div>
-                        <div class="mb-2 font-size-12 locker-mobile">
-                            <div class="legend-box mr-2 d-inline-block"
-                                 :style="{backgroundColor:data.color}">
+                            <div class="mb-2 font-size-12 locker-mobile">
+                                <div class="legend-box mr-2 d-inline-block"
+                                     :style="{backgroundColor:data.color}">
+                                </div>
+                                <span>선택됨</span>
                             </div>
-                            <span>선택됨</span>
-                        </div>
-                        <div class="mb-2 font-size-12 locker-mobile">
-                            <div class="legend-box mr-2 d-inline-block legend-background-image"
-                                 :style="{ backgroundImage: 'url(' + already + ')' }">
+                            <div class="mb-2 font-size-12 locker-mobile">
+                                <div class="legend-box mr-2 d-inline-block legend-background-image"
+                                     :style="{ backgroundImage: 'url(' + already + ')' }">
+                                </div>
+                                <span>신청됨</span>
                             </div>
-                            <span>신청됨</span>
-                        </div>
-                        <div class="mb-2 font-size-12 locker-mobile">
-                            <div class="legend-box mr-2 d-inline-block legend-background-image"
-                                 :style="{ backgroundImage: 'url(' + x + ')' }">
+                            <div class="mb-2 font-size-12 locker-mobile">
+                                <div class="legend-box mr-2 d-inline-block legend-background-image"
+                                     :style="{ backgroundImage: 'url(' + x + ')' }">
+                                </div>
+                                <span>고장</span>
                             </div>
-                            <span>고장</span>
                         </div>
+                        <template v-else-if="!data.color">
+                            <img :src="upstairs"
+                                 class="mr-2 d-inline-block stairs">
+                            <div v-if="!data.color" class="d-inline-block font-size-12">{{data.value}}</div>
+                        </template>
+                        <template v-else-if="data.color">
+                            <div class="mr-3 d-inline-block circle"
+                                 :style="{backgroundColor:data.color}"></div>
+                            <div class="d-inline-block font-size-12">{{data.value.join()}}</div>
+                        </template>
                     </div>
-                    <template v-else-if="!data.color">
-                        <img :src="upstairs"
-                             class="mr-2 d-inline-block stairs">
-                        <div v-if="!data.color" class="d-inline-block font-size-12">{{data.value}}</div>
-                    </template>
-                    <template v-else-if="data.color">
-                        <div class="mr-3 d-inline-block circle"
-                             :style="{backgroundColor:data.color}"></div>
-                        <div class="d-inline-block font-size-12">{{data.value.join()}}</div>
-                    </template>
-                </div>
-            </v-card>
+                </v-card>
+            </div>
         </div>
     </div>
 </template>
@@ -83,7 +85,7 @@
         data() {
             return {
                 items: [[]],
-                legend: [],
+                legend: [[]],
                 x,
                 already,
                 upstairs,

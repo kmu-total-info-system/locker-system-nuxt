@@ -18,6 +18,7 @@ const store = () => {
     return new Vuex.Store({
         state: {
             current: 'whole',
+            lockerCurrent:'',
             user: process.browser ? vuexLocalStorage.storage.user : {},
             lockerData: [],
             lockerId: [],

@@ -2,6 +2,9 @@ export default {
     CurrentChange: function (state, data) {
         state.current = data.link
     },
+    LockerCurrentChange: function (state, data) {
+        state.lockerCurrent = data.id;
+    },
     User: function (state, data) {
         state.user = data;
     },

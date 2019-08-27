@@ -1,11 +1,12 @@
 <template>
     <v-hover v-slot:default="{ hover }">
         <v-card @click="click" ref="locker"
+                :style="{backgroundColor:backgroundColor}"
                 :height="60*data.height" :width="60*data.width"
                 :class="{broken:(data.state == 2),
                 already:(data.state == 3),
                 overlay:hover&&(data.state == 1)}"
-                class="card-layout pointer secondaryBackground
+                class="card-layout pointer
                 border-collapse-lighten text-xs-center align-center
                                 d-flex justify-space-between">
             <img v-if="(data.state == 2)" :src="x"/>
@@ -30,8 +31,11 @@
             click: function () {
                 this.isClicked = !this.isClicked;
                 if (this.isClicked) {
-                    this.$refs.locker.$el.style.backgroundColor = 'red'
+                    this.$store.commit('LockerCurrentChange', this.data);
+                } else {
+                    this.$store.commit('LockerCurrentChange', '');
                 }
+                console.log(this.data)
                 this.$emit('click', this.data, this.isClicked);
             }
         },
@@ -41,6 +45,20 @@
                 already,
                 isClicked: false
             }
+        },
+        computed: {
+            backgroundColor: function () {
+                if (this.$store.state.lockerCurrent == this.data.id) {
+                    this.isClicked = true;
+                    return this.data.color;
+                } else {
+                    this.isClicked = false;
+                    return '#edf1f5';
+                }
+            }
+        },
+        created() {
+            window.addEventListener('click', this.clickEvent);
         }
     }
 </script>
@@ -53,4 +71,5 @@
         background-size: cover;
         background-repeat: no-repeat;
     }
+
 </style>

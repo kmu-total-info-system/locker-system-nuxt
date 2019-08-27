@@ -74,21 +74,24 @@
             },
             apply: function () {
                 this.loading = true;
-                this.$axios.$post('/locker/transaction', {
-                    block: this.blockId
-                })
-                    .then(res => {
-                        this.loading = false;
-                        this.snackbar = true;
-                        this.snackbarText = '신청이 완료되었습니다'
-                        console.log(res);
+                if (this.userInfo) {
+                    this.$axios.$post('/locker/transaction', {
+                        block: this.blockId
                     })
-                    .catch(err => {
-                        this.loading = false;
-                        this.snackbar = true;
-                        this.snackbarText = err.message
-                        console.log(err.data);
-                    })
+                        .then(res => {
+                            this.loading = false;
+                            this.snackbar = true;
+                            this.snackbarText = '신청이 완료되었습니다'
+                        })
+                        .catch(err => {
+                            this.snackbarText = err.response.data.message;
+                            this.loading = false;
+                            this.snackbar = true;
+                        })
+                } else {
+                    this.snackbar = true;
+                    this.snackbarText = '로그인 후 이용부탁드립니다'
+                }
             }
         },
         computed: {
