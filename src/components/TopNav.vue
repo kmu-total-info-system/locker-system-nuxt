@@ -1,6 +1,7 @@
 <template>
     <v-toolbar
             :fixed=true
+            class="z-index-max"
             style="background-color: white">
         <img width="28" height="24" :src="safebox"/>
         <v-toolbar-title style="margin-top:2px; font-size:18px;">사물함 신청하기</v-toolbar-title>
