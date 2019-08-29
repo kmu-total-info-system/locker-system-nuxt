@@ -1,14 +1,14 @@
 * {
-    user-select: none;
+    user-select: none !important;
 }
 
 .pointer {
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 .broken {
     background-color: #c2c7cc !important;
-    padding: 6px;
+    padding: 6px !important;
     pointer-events: none !important;
 }
 
@@ -18,7 +18,7 @@
 
 .broken img {
     margin-top: 0 !important;
-    position: absolute;
+    position: absolute !important;
 }
 
 .already {
@@ -28,7 +28,7 @@
 .already img {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: absolute !important;
 }
 
 .card-layout {
@@ -36,8 +36,8 @@
 }
 
 .v-card > .text {
-    font-size: 16px;
-    margin-top: 2px;
+    font-size: 16px !important;
+    margin-top: 2px !important;
 }
 
 .elevation-collapse {
@@ -45,7 +45,7 @@
     0 1px 0 0 #525c66,
     1px 1px 0 0 #525c66,
     1px 0 0 0 #525c66 inset,
-    0 1px 0 0 #525c66 inset;
+    0 1px 0 0 #525c66 inset !important;
 }
 
 .border-collapse-lighten {
@@ -53,25 +53,25 @@
     0 1px 0 0 #a1aab3,
     1px 1px 0 0 #a1aab3,
     1px 0 0 0 #a1aab3 inset,
-    0 1px 0 0 #a1aab3 inset;
+    0 1px 0 0 #a1aab3 inset !important;
 }
 
 .theme--light.application {
-    background-color: white;
+    background-color: white !important;
 }
 
 .v-sheet {
-    border-radius: 0;
+    border-radius: 0 !important;
 }
 
 .z-index-10 {
-    z-index: 10
+    z-index: 10 !important;
 }
 
 .z-index-20 {
-    z-index: 20
+    z-index: 20 !important;
 }
 
 .z-index-max {
-    z-index: 10000;
+    z-index: 10000 !important;
 }
