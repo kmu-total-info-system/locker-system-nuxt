@@ -1,5 +1,7 @@
 <template>
-    <v-toolbar style="background-color: white">
+    <v-toolbar
+            :fixed=true
+            style="background-color: white">
         <img width="28" height="24" :src="safebox"/>
         <v-toolbar-title style="margin-top:2px; font-size:18px;">사물함 신청하기</v-toolbar-title>
         <v-spacer></v-spacer>
@@ -20,7 +22,6 @@
         name: "TopNav",
         methods: {
             click: function (e) {
-                console.log('test')
                 this.$emit('click', e)
             },
             async logout(e) {

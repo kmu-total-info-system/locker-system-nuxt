@@ -104,7 +104,6 @@
                 this.items = [[]];
                 this.$axios.$get('/locker/' + this.datas.id)
                     .then(res => {
-                        console.log('tes23123213t')
                         let locker = res.blocks;
                         let isStair = false;
                         for (let arrIdx = 0; arrIdx < locker.length; arrIdx++) {
@@ -166,7 +165,6 @@
         },
         computed: {
             lockerData: function () {
-                console.log(this.$store.state.lockerData)
                 return this.$store.state.lockerData;
             }
         },
