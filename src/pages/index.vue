@@ -22,11 +22,14 @@
             <TopNav @click.stop="isForm = true" @click="login"></TopNav>
             <div style="margin-top:64px;">
                 <v-container style="max-width:1200px !important">
-                    <div style="margin-top:20px;margin-bottom:100px; width:300px;" class="pa-1">
-                        <span class="mr-5" style="margin-top:2px;">
-                            서버시간: {{mutateTime(currentTime)}}
-                        </span>
-                        <span v-if="completeLocker&&userInfo.is_active">내가 신청한 사물함: {{completeLocker.value}}</span>
+                    <div style="margin-top:20px;margin-bottom:100px; width:100%;" class="pa-1">
+                        <p class="mr-5 server" style="margin-top:2px;">
+                            서버시간 {{mutateTime(currentTime)}}
+                        </p>
+                        <p>
+                            <strong v-if="completeLocker&&userInfo.is_active">내가 신청한 사물함:  </strong>
+                            <span  v-if="completeLocker&&userInfo.is_active">{{completeLocker}}</span>
+                        </p>
                     </div>
                 </v-container>
                 <v-container style="max-width:1200px !important;">
@@ -83,12 +86,12 @@
         methods: {
             mutateTime: function (data) {
                 let d = new Date(data);
-                data = d.getFullYear() + '년'
-                    + (d.getMonth() + 1) + '월'
-                    + d.getDate() + '일'
-                    + d.getHours() + '시'
-                    + d.getMinutes() + '분'
-                    + d.getSeconds() + '초';
+                data = d.getFullYear() + '년 '
+                    + (d.getMonth() + 1) + '월 '
+                    + d.getDate() + '일 '
+                    + d.getHours() + '시 '
+                    + d.getMinutes() + '분 '
+                    + d.getSeconds() + '초 ' + d.getMilliseconds();
                 return data;
             },
             setTime: function () {
@@ -100,13 +103,13 @@
                             let nowLocalTime = new Date();
                             this.currentTime = new Date(this.currentTime.getTime() + (nowLocalTime - this.localTime));
                             this.localTime = new Date(nowLocalTime.getTime());
-                        }, 100);
+                        }, 10);
                         setInterval(() => {
                             this.setTime();
                         }, 60000)
                     })
                     .catch(err => {
-                        console.log(err)
+                        // console.log(err)
                     })
             },
             formExit: function () {
@@ -163,19 +166,29 @@
             }
         },
         async asyncData({$axios}) {
-            let data = await $axios.$get('/locker/time');
-            return {currentTime: new Date(data.time)}
+            try {
+                var data = await $axios.$get('/locker/time');
+                var transaction = await $axios.$get('/locker/transaction');
+                var block = transaction.block.value;
+            } catch (e) {
+                var block = "신청한 사물함이 없습니다."
+            }
+
+            return {
+                currentTime: new Date(data.time),
+                completeLocker: block
+            }
 
         },
         created() {
             this.setTime();
-            this.$axios.$get('/locker/transaction')
-                .then(res => {
-                    this.completeLocker = res.block;
-                })
-                .catch(err => {
-                    console.log(err)
-                })
+            // this.$axios.$get('/locker/transaction')
+            //     .then(res => {
+            //         this.completeLocker = res.block;
+            //     })
+            //     .catch(err => {
+            //         // console.log(err)
+            //     })
         }
     }
 </script>
@@ -219,5 +232,10 @@
         .legend-container {
             margin: 0 !important;
         }
+    }
+
+    .server {
+        font-family: 'Segment7Standard';
+        font-weight: bold;
     }
 </style>

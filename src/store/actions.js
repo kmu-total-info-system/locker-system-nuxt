@@ -5,7 +5,7 @@ export default {
                 store.commit('LockerId', res);
             })
             .catch(err => {
-                console.log(err)
+                // console.log(err)
             })
     },
 }

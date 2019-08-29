@@ -159,7 +159,7 @@
                         this.layoutData = this.lockerData;
                     })
                     .catch(err => {
-                        console.log(err)
+                        // console.log(err)
                     })
             }
         },
