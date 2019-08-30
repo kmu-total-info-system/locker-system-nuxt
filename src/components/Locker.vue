@@ -7,7 +7,7 @@
                 already:(data.state == 3),
                 overlay:hover&&(data.state == 1),
                 complete:(data.state==4)}"
-                class="card-layout pointer
+                class="card-layout pointer z-index-20
                 border-collapse-lighten text-xs-center align-center
                                 d-flex justify-space-between">
             <img v-if="(data.state == 2)" :src="x"/>
