@@ -80,7 +80,8 @@
                 blockId: undefined,
                 loading: false,
                 localTime: 0,
-                completeLocker: undefined
+                completeLocker: undefined,
+                firstCheck:true,
             }
         },
         methods: {
@@ -99,14 +100,17 @@
                     .then(res => {
                         this.currentTime = new Date(res.time);
                         this.localTime = new Date();
-                        setInterval(() => {
-                            let nowLocalTime = new Date();
-                            this.currentTime = new Date(this.currentTime.getTime() + (nowLocalTime - this.localTime));
-                            this.localTime = new Date(nowLocalTime.getTime());
-                        }, 10);
-                        setInterval(() => {
-                            this.setTime();
-                        }, 60000)
+                        if(this.firstCheck) {
+                            setInterval(() => {
+                                let nowLocalTime = new Date();
+                                this.currentTime = new Date(this.currentTime.getTime() + (nowLocalTime - this.localTime));
+                                this.localTime = new Date(nowLocalTime.getTime());
+                            }, 10);
+                            setInterval(() => {
+                                this.setTime();
+                            }, 60000);
+                            this.firstCheck = !this.firstCheck;
+                        }
                     })
                     .catch(err => {
                         // console.log(err)
